@@ -1,6 +1,5 @@
 import os from "node:os";
 import { SlashCommandBuilder, InteractionContextType } from "discord.js";
-import translations from "../../../locales/translations.js";
 import defaults from "../../util/defaults.js";
 
 // ========================= //
@@ -12,8 +11,7 @@ const commandName = import.meta.url.split("/").pop()?.split(".").shift() ?? "";
 export default {
     data: new SlashCommandBuilder()
         .setName(commandName)
-        .setDescription(translations.info.desc)
-        .setDescriptionLocalizations(translations.info.translations)
+        .setDescription("Show information about this bot.")
         .setContexts([InteractionContextType.Guild]),
     /**
      * @param {import("discord.js").CommandInteraction} interaction

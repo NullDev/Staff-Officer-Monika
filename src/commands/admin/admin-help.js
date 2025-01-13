@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, InteractionContextType, PermissionFlagsBits, MessageFlags } from "discord.js";
-import translations from "../../../locales/translations.js";
 
 // ========================= //
 // = Copyright (c) NullDev = //
@@ -10,8 +9,7 @@ const commandName = import.meta.url.split("/").pop()?.split(".").shift() ?? "";
 export default {
     data: new SlashCommandBuilder()
         .setName(commandName)
-        .setDescription(translations.admin_help.desc)
-        .setDescriptionLocalizations(translations.admin_help.translations)
+        .setDescription("Show an overview of all admin commands.")
         .setContexts([InteractionContextType.Guild])
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     /**

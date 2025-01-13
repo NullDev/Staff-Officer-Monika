@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, InteractionContextType, MessageFlags } from "discord.js";
-import translations from "../../../locales/translations.js";
 
 // ========================= //
 // = Copyright (c) NullDev = //
@@ -10,8 +9,7 @@ const commandName = import.meta.url.split("/").pop()?.split(".").shift() ?? "";
 export default {
     data: new SlashCommandBuilder()
         .setName(commandName)
-        .setDescription(translations.help.desc)
-        .setDescriptionLocalizations(translations.help.translations)
+        .setDescription("Show an overview of all commands.")
         .setContexts([InteractionContextType.Guild]),
     /**
      * @param {import("discord.js").CommandInteraction} interaction
