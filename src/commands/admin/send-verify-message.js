@@ -35,6 +35,8 @@ export default {
      * @param {import("discord.js").CommandInteraction} interaction
      */
     async execute(interaction){
+        interaction.deferReply();
+
         const channel = interaction.options.get("channel");
         if (!channel){
             return await interaction.reply({
@@ -109,15 +111,9 @@ export default {
 
         await db.set(`guild-${interaction.guildId}.verify_message`, message.id);
 
-        const res = "Message has been sent to <#" + val + ">";
-        return interaction.deferred
-            ? await interaction.followUp({
-                content: res,
-                flags: [MessageFlags.Ephemeral],
-            })
-            : await interaction.reply({
-                content: res,
-                flags: [MessageFlags.Ephemeral],
-            });
+        return await interaction.followUp({
+            content: "Message has been sent to <#" + val + ">",
+            flags: [MessageFlags.Ephemeral],
+        });
     },
 };
