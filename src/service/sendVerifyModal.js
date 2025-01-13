@@ -18,7 +18,7 @@ const sendVerifyModal = async function(interaction){
     const clan = new TextInputBuilder()
         .setCustomId("clan")
         .setPlaceholder("TA5")
-        .setStyle(TextInputStyle.Paragraph)
+        .setStyle(TextInputStyle.Short)
         .setLabel("Clan Tag (If no clan, type \"none\")")
         .setRequired(true);
 
