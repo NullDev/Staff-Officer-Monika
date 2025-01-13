@@ -1,0 +1,41 @@
+{
+  "name": "staff-officer-monika",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Discord Bot to manage the 1128 Server members",
+  "main": "src/app.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start:dev": "npm run lint && cross-env NODE_ENV=development node src/app.js",
+    "start:prod": "cross-env NODE_ENV=production node src/app.js",
+    "start": "npm run start:dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "generate-config": "node scripts/generate-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NullDev/Staff-Officer-Monika.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NullDev/Staff-Officer-Monika/issues"
+  },
+  "homepage": "https://github.com/NullDev/Staff-Officer-Monika#readme",
+  "author": "NullDev",
+  "license": "AGPL-3.0-only",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/eslint-parser": "^7.26.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.18.0"
+  },
+  "dependencies": {
+    "check-dependencies": "^2.0.0",
+    "discord-hybrid-sharding": "^2.2.4",
+    "discord.js": "^14.17.3",
+    "node-cron": "^3.0.3"
+  }
+}
