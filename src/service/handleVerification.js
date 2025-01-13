@@ -7,6 +7,8 @@ import defaults from "../util/defaults.js";
 // = Copyright (c) NullDev = //
 // ========================= //
 
+const msgDeleteTime = 9000;
+
 const db = new QuickDB({
     filePath: path.resolve("./data/guild_data.sqlite"),
 });
@@ -16,7 +18,7 @@ const db = new QuickDB({
  *
  * @param {import("discord.js").ModalSubmitInteraction} interaction
  * @param {String} username
- * @return {Promise<import("discord.js").Message>}
+ * @return {Promise<any>}
  */
 const sendScucessMessage = async function(interaction, username){
     const channel = /** @type {import("discord.js").TextChannel} */ (
@@ -31,7 +33,11 @@ const sendScucessMessage = async function(interaction, username){
     return await channel.send({
         content: `<@${interaction.member?.user.id}>`,
         embeds: [embed],
-    });
+    }).then(msg => {
+        setTimeout(async() => {
+            await msg.delete().catch(() => null);
+        }, msgDeleteTime);
+    }).catch(() => null);
 };
 
 /**
@@ -39,7 +45,7 @@ const sendScucessMessage = async function(interaction, username){
  *
  * @param {import("discord.js").ModalSubmitInteraction} interaction
  * @param {String} message
- * @return {Promise<import("discord.js").Message>}
+ * @return {Promise<any>}
  */
 const sendErrorMessage = async function(interaction, message){
     const channel = /** @type {import("discord.js").TextChannel} */ (
@@ -54,7 +60,11 @@ const sendErrorMessage = async function(interaction, message){
     return await channel.send({
         content: `<@${interaction.member?.user.id}>`,
         embeds: [embed],
-    });
+    }).then(msg => {
+        setTimeout(async() => {
+            await msg.delete().catch(() => null);
+        }, msgDeleteTime);
+    }).catch(() => null);
 };
 
 /**
