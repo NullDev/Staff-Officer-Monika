@@ -1,7 +1,6 @@
 import path from "node:path";
 import {
     SlashCommandBuilder,
-    PermissionFlagsBits,
     MessageFlags,
     InteractionContextType,
 } from "discord.js";
@@ -21,8 +20,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription("List all clan roles.")
-        .setContexts([InteractionContextType.Guild])
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setContexts([InteractionContextType.Guild]),
 
     /**
      * @param {import("discord.js").CommandInteraction} interaction
