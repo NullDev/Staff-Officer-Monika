@@ -5,6 +5,7 @@ import {
     InteractionContextType,
 } from "discord.js";
 import { QuickDB } from "quick.db";
+import { config } from "../../../config/config.js";
 
 // ========================= //
 // = Copyright (c) NullDev = //
@@ -45,8 +46,28 @@ export default {
             });
         }
 
+        const memberRole = await interaction.guild?.roles.fetch()
+            .then(roles => roles.find(r => r.name === config.settings.member_role)).catch(() => null);
+        const guestRole = await interaction.guild?.roles.fetch()
+            .then(roles => roles.find(r => r.name === config.settings.guest_role)).catch(() => null);
+
+        if (!memberRole){
+            return await interaction.reply({
+                content: "Member role not found. Please contact the server owner.",
+                flags: [MessageFlags.Ephemeral],
+            });
+        }
+        if (!guestRole){
+            return await interaction.reply({
+                content: "Guest role not found. Please contact the server owner.",
+                flags: [MessageFlags.Ephemeral],
+            });
+        }
+
         if (clan.toLowerCase() === "none"){
             await gMember?.setNickname(name).catch(() => null);
+            await gMember?.roles.add(guestRole).catch(() => null);
+            await gMember?.roles.remove(memberRole).catch(() => null);
             return await interaction.reply({
                 content: `Your nickname has been set to "${name}".`,
                 flags: [MessageFlags.Ephemeral],
@@ -66,6 +87,8 @@ export default {
         }
 
         await gMember?.roles.add(role).catch(() => null);
+        await gMember?.roles.add(memberRole).catch(() => null);
+        await gMember?.roles.remove(guestRole).catch(() => null);
 
         const newName = `[${clan}] ${name}`;
         await gMember.setNickname(newName).catch(() => null);

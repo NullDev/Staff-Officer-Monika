@@ -6,4 +6,8 @@ export default {
         total_shards: /** @type {number | "auto" | undefined} */ (1),
         shards_per_cluster: /** @type {number | undefined} */ (1),
     },
+    settings: {
+        guest_role: "Guest",
+        member_role: "Member",
+    },
 };
