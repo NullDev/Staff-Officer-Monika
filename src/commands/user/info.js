@@ -51,7 +51,7 @@ export default {
         const embed = {
             title: "Bot Info",
             description: "Discord Bot to manage the #1128 Server members",
-            color: defaults.info_embed_color,
+            color: defaults.embed_color,
             thumbnail: {
                 url: botAvatar,
             },

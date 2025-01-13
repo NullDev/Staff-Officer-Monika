@@ -3,7 +3,7 @@
 // ========================= //
 
 const defaults = {
-    info_embed_color: 2518621,
+    embed_color: 1752220,
 };
 
 export default defaults;
