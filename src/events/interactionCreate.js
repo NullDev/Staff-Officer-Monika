@@ -1,6 +1,8 @@
 import path from "node:path";
 import { MessageFlags } from "discord.js";
 import { QuickDB } from "quick.db";
+import sendVerifyModal from "../service/sendVerifyModal.js";
+import handleVerification from "../service/handleVerification.js";
 import Log from "../util/log.js";
 
 // ========================= //
@@ -58,7 +60,18 @@ const handleCommandInteraction = async function(interaction){
  */
 const handleModalSubmit = async function(interaction){
     if (interaction.customId === "submit_into"){
-        () => {}; // noop
+        await handleVerification(interaction);
+    }
+};
+
+/**
+ * Handle button events
+ *
+ * @param {import("discord.js").ButtonInteraction} interaction
+ */
+const handleButton = async function(interaction){
+    if (interaction.customId === "verify"){
+        await sendVerifyModal(interaction);
     }
 };
 
@@ -71,6 +84,7 @@ const handleModalSubmit = async function(interaction){
 const interactionCreateHandler = async function(interaction){
     if (interaction.isChatInputCommand()) await handleCommandInteraction(interaction);
     if (interaction.isModalSubmit()) await handleModalSubmit(interaction);
+    if (interaction.isButton()) await handleButton(interaction);
 };
 
 export default interactionCreateHandler;
