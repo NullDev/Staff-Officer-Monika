@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import EventEmitter from "node:events";
 import { ClusterManager } from "discord-hybrid-sharding";
 import Log from "./util/log.js";
@@ -33,6 +35,15 @@ Log.info(appname + " v" + version + " by " + author);
 Log.debug("Node Environment: " + process.env.NODE_ENV, true);
 Log.debug("NodeJS version: " + process.version, true);
 Log.debug("OS: " + process.platform + " " + process.arch, true);
+
+Log.wait("Ensuring data dir...");
+if (!fs.existsSync(path.resolve("./data"))){
+    const dataDir = path.resolve("./data");
+    fs.mkdirSync(dataDir);
+    fs.closeSync(fs.openSync(path.resolve(dataDir, ".gitkeep"), "w"));
+    Log.done("Created missing data dir!");
+}
+else Log.done("Data dir exists!");
 
 manager.on("clusterCreate", shard => Log.info(`Launched shard ${shard.id}`));
 if (process.env.NODE_ENV !== "production") manager.on("debug", e => Log.debug(e));
