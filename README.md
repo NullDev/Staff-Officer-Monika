@@ -54,4 +54,4 @@ Once the config has been copied like described in [Step 4](#wrench-setup), it ca
 
 <hr>
 
-<img height="100px" width="100%" src="/assets/banner.jpg" />
+<img height="auto" width="100%" src="/assets/banner-crop.jpg" />
