@@ -1,5 +1,5 @@
 # Staff Officer Monika
-[![NullDev/DiscordJS-Template](https://img.shields.io/badge/Template%3A-NullDev%2FDiscordJS--Template-green?style=flat-square&logo=github)](https://github.com/NullDev/DiscordJS-Template) [![cd](https://github.com/NullDev/Staff-Officer-Monika/actions/workflows/cd.yml/badge.svg)](https://github.com/NullDev/Staff-Officer-Monika/actions/workflows/cd.yml) [![ESLint](https://github.com/NullDev/Staff-Officer-Monika/actions/workflows/eslint.yml/badge.svg)](https://github.com/NullDev/Staff-Officer-Monika/actions/workflows/eslint.yml) [![License](https://img.shields.io/github/license/NullDev/Staff-Officer-Monika?label=License&logo=Creative%20Commons)](https://github.com/NullDev/Staff-Officer-Monika/blob/master/LICENSE) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/NullDev/Staff-Officer-Monika?logo=Cachet)](https://github.com/NullDev/Staff-Officer-Monika/issues?q=is%3Aissue+is%3Aclosed)
+[![NullDev/DiscordJS-Template](https://img.shields.io/badge/Template%3A-NullDev%2FDiscordJS--Template-green?style=flat-square&logo=github)](https://github.com/NullDev/DiscordJS-Template) [![License](https://img.shields.io/github/license/NullDev/Staff-Officer-Monika?label=License&logo=Creative%20Commons)](https://github.com/NullDev/Staff-Officer-Monika/blob/master/LICENSE) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/NullDev/Staff-Officer-Monika?logo=Cachet)](https://github.com/NullDev/Staff-Officer-Monika/issues?q=is%3Aissue+is%3Aclosed)
 
 <p align="center"><img height="250" width="auto" src="/assets/icon.jpg" /></p>
 <p align="center"><b>Discord Bot to manage the #1128 Server members</b></p>
@@ -54,4 +54,4 @@ Once the config has been copied like described in [Step 4](#wrench-setup), it ca
 
 <hr>
 
-<img height="250" width="auto" src="/assets/banner.jpg" />
+<img height="100px" width="100%" src="/assets/banner.jpg" />
