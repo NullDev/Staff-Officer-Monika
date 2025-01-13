@@ -33,9 +33,11 @@
     "eslint": "^9.18.0"
   },
   "dependencies": {
+    "better-sqlite3": "^11.7.2",
     "check-dependencies": "^2.0.0",
     "discord-hybrid-sharding": "^2.2.4",
     "discord.js": "^14.17.3",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "quick.db": "^9.1.7"
   }
 }
