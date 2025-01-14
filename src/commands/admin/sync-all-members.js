@@ -22,6 +22,12 @@ export default {
      * @param {import("discord.js").CommandInteraction} interaction
      */
     async execute(interaction){
+        return await interaction.reply({
+            content: "Not enabled yet.",
+            flags: [MessageFlags.Ephemeral],
+        });
+
+        // eslint-disable-next-line no-unreachable
         await interaction.deferReply();
 
         const members = await interaction.guild?.members.fetch().catch(() => null);
