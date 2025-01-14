@@ -35,11 +35,11 @@ export default {
      * @param {import("discord.js").CommandInteraction} interaction
      */
     async execute(interaction){
-        interaction.deferReply();
+        await interaction.deferReply();
 
         const channel = interaction.options.get("channel");
         if (!channel){
-            return await interaction.reply({
+            return await interaction.followUp({
                 content: "A channel is required.",
                 flags: [MessageFlags.Ephemeral],
             });
@@ -49,7 +49,7 @@ export default {
 
         if (!val) val = (await interaction.guild?.channels.fetch().catch(() => null))?.find(ch => ch?.name === channel.value && ch?.type === ChannelType.GuildText)?.id;
         if (!val){
-            return await interaction.reply({
+            return await interaction.followUp({
                 content: "I can't find the specified channel.",
                 flags: [MessageFlags.Ephemeral],
             });
@@ -57,7 +57,7 @@ export default {
 
         const ch = /** @type {import("discord.js").TextChannel} */ (await interaction.guild?.channels.fetch(val).catch(() => null));
         if (!ch){
-            return await interaction.reply({
+            return await interaction.followUp({
                 content: "I can't find the specified channel.",
                 flags: [MessageFlags.Ephemeral],
             });
