@@ -101,6 +101,17 @@ export default {
                         },
                     ],
                 },
+                {
+                    type: 1,
+                    components: [
+                        {
+                            type: 2,
+                            style: 1,
+                            label: "List possible clan roles",
+                            custom_id: "list_clans",
+                        },
+                    ],
+                },
             ],
         });
 

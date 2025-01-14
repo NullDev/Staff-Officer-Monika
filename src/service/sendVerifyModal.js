@@ -4,6 +4,12 @@ import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } from
 // = Copyright (c) NullDev = //
 // ========================= //
 
+/**
+ * Send the verification modal
+ *
+ * @param {import("discord.js").ButtonInteraction} interaction
+ * @return {Promise<undefined>}
+ */
 const sendVerifyModal = async function(interaction){
     const modal = new ModalBuilder()
         .setCustomId("submit_into")

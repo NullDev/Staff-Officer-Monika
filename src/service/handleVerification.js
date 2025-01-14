@@ -9,8 +9,6 @@ import { config } from "../../config/config.js";
 // = Copyright (c) NullDev = //
 // ========================= //
 
-const msgDeleteTime = 9000;
-
 const db = new QuickDB({
     filePath: path.resolve("./data/guild_data.sqlite"),
 });
@@ -40,7 +38,7 @@ const sendSuccessMessage = async function(interaction, username){
     }).then(msg => {
         setTimeout(async() => {
             await msg.delete().catch(() => null);
-        }, msgDeleteTime);
+        }, defaults.msgDeleteTime);
     }).catch(() => null);
 };
 
@@ -69,7 +67,7 @@ const sendErrorMessage = async function(interaction, message){
     }).then(msg => {
         setTimeout(async() => {
             await msg.delete().catch(() => null);
-        }, msgDeleteTime);
+        }, defaults.msgDeleteTime);
     }).catch(() => null);
 };
 

@@ -3,6 +3,7 @@ import { MessageFlags } from "discord.js";
 import { QuickDB } from "quick.db";
 import sendVerifyModal from "../service/sendVerifyModal.js";
 import handleVerification from "../service/handleVerification.js";
+import listClanRoles from "./listClanRolesBtn.js";
 import Log from "../util/log.js";
 
 // ========================= //
@@ -73,6 +74,10 @@ const handleModalSubmit = async function(interaction){
 const handleButton = async function(interaction){
     if (interaction.customId === "verify"){
         await sendVerifyModal(interaction);
+    }
+
+    if (interaction.customId === "list_clans"){
+        await listClanRoles(interaction);
     }
 };
 
