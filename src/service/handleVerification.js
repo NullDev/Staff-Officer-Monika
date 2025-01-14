@@ -2,6 +2,7 @@ import path from "node:path";
 import { EmbedBuilder } from "discord.js";
 import { QuickDB } from "quick.db";
 import defaults from "../util/defaults.js";
+import Log from "../util/log.js";
 import { config } from "../../config/config.js";
 
 // ========================= //
@@ -21,7 +22,7 @@ const db = new QuickDB({
  * @param {String} username
  * @return {Promise<any>}
  */
-const sendScucessMessage = async function(interaction, username){
+const sendSuccessMessage = async function(interaction, username){
     const channel = /** @type {import("discord.js").TextChannel} */ (
         await interaction.guild?.channels.fetch(interaction.channelId || "")?.catch(() => null)
     );
@@ -30,6 +31,8 @@ const sendScucessMessage = async function(interaction, username){
         .setTitle("Verification Successful")
         .setDescription(`You have successfully been verified as ${username}!`)
         .setColor(defaults.embed_color);
+
+    Log.done(`User ${interaction.user.displayName} has been verified as ${username}`);
 
     return await channel.send({
         content: `<@${interaction.member?.user.id}>`,
@@ -57,6 +60,8 @@ const sendErrorMessage = async function(interaction, message){
         .setTitle("Verification Failed")
         .setDescription(message)
         .setColor(defaults.embed_color);
+
+    Log.error(`User ${interaction.user.displayName} failed verification: ${message}`);
 
     return await channel.send({
         content: `<@${interaction.member?.user.id}>`,
@@ -91,7 +96,7 @@ const handleVerification = async function(interaction){
         await gMember?.roles.add(guestRole).catch(() => null);
         await gMember?.roles.remove(memberRole).catch(() => null);
 
-        return await sendScucessMessage(interaction, username);
+        return await sendSuccessMessage(interaction, username);
     }
 
     const clanRoles = (await db.get(`guild-${interaction.guildId}.clan_roles`)) ?? [];
@@ -109,7 +114,7 @@ const handleVerification = async function(interaction){
     await gMember.roles.add(memberRole).catch(() => null);
     await gMember.roles.remove(guestRole).catch(() => null);
 
-    return await sendScucessMessage(interaction, name);
+    return await sendSuccessMessage(interaction, name);
 };
 
 export default handleVerification;
