@@ -96,8 +96,8 @@ export default {
                         {
                             type: 2,
                             style: 1,
-                            label: "Verify",
-                            custom_id: "verify",
+                            label: "List possible clan roles",
+                            custom_id: "list_clans",
                         },
                     ],
                 },
@@ -106,9 +106,9 @@ export default {
                     components: [
                         {
                             type: 2,
-                            style: 1,
-                            label: "List possible clan roles",
-                            custom_id: "list_clans",
+                            style: 3,
+                            label: "Verify",
+                            custom_id: "verify",
                         },
                     ],
                 },
