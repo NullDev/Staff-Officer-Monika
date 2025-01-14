@@ -11,10 +11,6 @@ const db = new QuickDB({
     filePath: path.resolve("./data/guild_data.sqlite"),
 });
 
-// ========================= //
-// = Copyright (c) NullDev = //
-// ========================= //
-
 /**
  * Send message
  *
