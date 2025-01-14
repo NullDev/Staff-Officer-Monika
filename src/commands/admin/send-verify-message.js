@@ -66,7 +66,7 @@ export default {
         const embed = new EmbedBuilder()
             .setColor(defaults.embed_color)
             .setTitle("🔷┃Verification")
-            .setDescription("### Hello Commander!\nTo gain access to the server, please **click the button** below and **fill out the form**.")
+            .setDescription("### Hello Commander!\n⚔️┃Welcome to the **`#1128` Discord**!\n🛡️┃To gain access to the server,\n🌐┃please **click the button** below and **fill out the form**.")
             .setImage("attachment://upsell.jpg")
             .setFooter({
                 text: "If you have any questions, please ask a staff member or the owner.",
