@@ -5,6 +5,7 @@ import {
     InteractionContextType,
 } from "discord.js";
 import { QuickDB } from "quick.db";
+import gLogger from "../../service/gLogger.js";
 import { config } from "../../../config/config.js";
 
 // ========================= //
@@ -68,6 +69,13 @@ export default {
             await gMember?.setNickname(name).catch(() => null);
             await gMember?.roles.add(guestRole).catch(() => null);
             await gMember?.roles.remove(memberRole).catch(() => null);
+
+            await gLogger(
+                interaction,
+                "🔷┃Verification Log - Success",
+                `User ${interaction.user} has been verified as **"${name}"** without clan via command.`,
+            );
+
             return await interaction.reply({
                 content: `Your nickname has been set to "${name}".`,
                 flags: [MessageFlags.Ephemeral],
@@ -80,8 +88,17 @@ export default {
         const role = serverRoles?.find(r => r.name.toLowerCase() === clan.toLowerCase() && clanRoles.includes(r.id));
 
         if (!role){
+            const eMsg = `The clan "${clan}" does not exist here. Please contact the server owner to add it.`;
+
+            await gLogger(
+                interaction,
+                "🔷┃Verification Log - Error",
+                `User ${interaction.user} **could NOT** be verified via command:\n${eMsg}`,
+                "Red",
+            );
+
             return await interaction.reply({
-                content: "This clan does not exist here. Please contact the server owner to add it.",
+                content: eMsg,
                 flags: [MessageFlags.Ephemeral],
             });
         }
@@ -92,6 +109,12 @@ export default {
 
         const newName = `[${clan}] ${name}`;
         await gMember.setNickname(newName).catch(() => null);
+
+        await gLogger(
+            interaction,
+            "🔷┃Verification Log - Success",
+            `User ${interaction.user} has been verified as **"${newName}"** via command.`,
+        );
 
         return await interaction.reply({
             content: `Your nickname has been set to "${newName}" and you have been given the role "${role.name}".`,

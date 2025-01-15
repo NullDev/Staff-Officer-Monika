@@ -3,6 +3,7 @@ import { EmbedBuilder } from "discord.js";
 import { QuickDB } from "quick.db";
 import defaults from "../util/defaults.js";
 import Log from "../util/log.js";
+import gLogger from "./gLogger.js";
 import { config } from "../../config/config.js";
 
 // ========================= //
@@ -30,7 +31,13 @@ const sendSuccessMessage = async function(interaction, username){
         .setDescription(`You have successfully been verified as ${username}!`)
         .setColor(defaults.embed_color);
 
-    Log.done(`User ${interaction.user.displayName} has been verified as ${username}`);
+    Log.done(`User ${interaction.user.displayName} has been verified as "${username}"`);
+
+    await gLogger(
+        interaction,
+        "🔷┃Verification Log - Success",
+        `User ${interaction.user} has been verified as **"${username}"** via modal.`,
+    );
 
     return await channel.send({
         content: `<@${interaction.member?.user.id}>`,
@@ -60,6 +67,13 @@ const sendErrorMessage = async function(interaction, message){
         .setColor(defaults.embed_color);
 
     Log.error(`User ${interaction.user.displayName} failed verification: ${message}`);
+
+    await gLogger(
+        interaction,
+        "🔷┃Verification Log - Error",
+        `User ${interaction.user} **could NOT** be verified via modal:\n${message}`,
+        "Red",
+    );
 
     return await channel.send({
         content: `<@${interaction.member?.user.id}>`,
@@ -102,7 +116,7 @@ const handleVerification = async function(interaction){
 
     const role = serverRoles?.find(r => r.name.toLowerCase() === clan.toLowerCase() && clanRoles.includes(r.id));
 
-    if (!role) return await sendErrorMessage(interaction, "This clan does not exist here. Please contact the server owner to add it.");
+    if (!role) return await sendErrorMessage(interaction, `The clan role "${clan}" does not exist here. Please contact the server owner to add it.`);
 
     await gMember?.roles.add(role).catch(() => null);
 
