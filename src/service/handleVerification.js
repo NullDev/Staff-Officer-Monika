@@ -15,6 +15,26 @@ const db = new QuickDB({
 });
 
 /**
+ * Remove all clan roles from member
+ *
+ * @param {import("discord.js").ModalSubmitInteraction} interaction
+ * @return {Promise<any>}
+ */
+const removeAllClanRolesFromMember = async function(interaction){
+    const clanRoles = (await db.get(`guild-${interaction.guildId}.clan_roles`)) ?? [];
+    const serverRoles = await interaction.guild?.roles.fetch().catch(() => null);
+    const { member } = interaction;
+
+    if (!serverRoles || !member) return;
+
+    for (const role of serverRoles.values()){
+        if (clanRoles.includes(role.id)){
+            await /** @type {import("discord.js").GuildMemberRoleManager} */ (member.roles).remove(role).catch(() => null);
+        }
+    }
+};
+
+/**
  * Send success message
  *
  * @param {import("discord.js").ModalSubmitInteraction} interaction
@@ -92,6 +112,8 @@ const sendErrorMessage = async function(interaction, message){
  * @return {Promise<import("discord.js").Message>}
  */
 const handleVerification = async function(interaction){
+    if (!interaction.deferred && !interaction.replied) await interaction.deferUpdate();
+
     const username = interaction.fields.getTextInputValue("username");
     const clan = interaction.fields.getTextInputValue("clan");
     const gMember = /** @type {import("discord.js").GuildMember} */ (interaction.member);
@@ -104,6 +126,7 @@ const handleVerification = async function(interaction){
     if (!guestRole) return await sendErrorMessage(interaction, "Guest role not found. Please contact the server owner.");
 
     if (clan.toLowerCase() === "none"){
+        await removeAllClanRolesFromMember(interaction);
         await gMember?.setNickname(username).catch(() => null);
         await gMember?.roles.add(guestRole).catch(() => null);
         await gMember?.roles.remove(memberRole).catch(() => null);
@@ -118,6 +141,7 @@ const handleVerification = async function(interaction){
 
     if (!role) return await sendErrorMessage(interaction, `The clan role "${clan}" does not exist here. Please contact the server owner to add it.`);
 
+    await removeAllClanRolesFromMember(interaction);
     await gMember?.roles.add(role).catch(() => null);
 
     const name = `[${clan}] ${username}`;

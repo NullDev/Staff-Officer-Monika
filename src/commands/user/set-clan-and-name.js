@@ -1,9 +1,5 @@
 import path from "node:path";
-import {
-    SlashCommandBuilder,
-    MessageFlags,
-    InteractionContextType,
-} from "discord.js";
+import { SlashCommandBuilder, InteractionContextType } from "discord.js";
 import { QuickDB } from "quick.db";
 import gLogger from "../../service/gLogger.js";
 import { config } from "../../../config/config.js";
@@ -17,6 +13,26 @@ const db = new QuickDB({
 });
 
 const commandName = import.meta.url.split("/").pop()?.split(".").shift() ?? "";
+
+/**
+ * Remove all clan roles from member
+ *
+ * @param {import("discord.js").CommandInteraction} interaction
+ * @return {Promise<any>}
+ */
+const removeAllClanRolesFromMember = async function(interaction){
+    const clanRoles = (await db.get(`guild-${interaction.guildId}.clan_roles`)) ?? [];
+    const serverRoles = await interaction.guild?.roles.fetch().catch(() => null);
+    const { member } = interaction;
+
+    if (!serverRoles || !member) return;
+
+    for (const role of serverRoles.values()){
+        if (clanRoles.includes(role.id)){
+            await /** @type {import("discord.js").GuildMemberRoleManager} */ (member.roles).remove(role).catch(() => null);
+        }
+    }
+};
 
 export default {
     data: new SlashCommandBuilder()
@@ -36,14 +52,15 @@ export default {
      * @param {import("discord.js").CommandInteraction} interaction
      */
     async execute(interaction){
+        interaction.deferReply();
+
         const clan = String(interaction.options.get("clan")?.value);
         const name = String(interaction.options.get("name")?.value);
         const gMember = /** @type {import("discord.js").GuildMember} */ (interaction.member);
 
         if (!clan || !name){
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: "Both clan and name are required.",
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
@@ -53,19 +70,19 @@ export default {
             .then(roles => roles.find(r => r.name === config.settings.guest_role)).catch(() => null);
 
         if (!memberRole){
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: "Member role not found. Please contact the server owner.",
-                flags: [MessageFlags.Ephemeral],
             });
         }
         if (!guestRole){
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: "Guest role not found. Please contact the server owner.",
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
         if (clan.toLowerCase() === "none"){
+            await removeAllClanRolesFromMember(interaction);
+
             await gMember?.setNickname(name).catch(() => null);
             await gMember?.roles.add(guestRole).catch(() => null);
             await gMember?.roles.remove(memberRole).catch(() => null);
@@ -76,9 +93,8 @@ export default {
                 `User ${interaction.user} has been verified as **"${name}"** without clan via command.`,
             );
 
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: `Your nickname has been set to "${name}".`,
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
@@ -97,12 +113,12 @@ export default {
                 "Red",
             );
 
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: eMsg,
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
+        await removeAllClanRolesFromMember(interaction);
         await gMember?.roles.add(role).catch(() => null);
         await gMember?.roles.add(memberRole).catch(() => null);
         await gMember?.roles.remove(guestRole).catch(() => null);
@@ -116,9 +132,8 @@ export default {
             `User ${interaction.user} has been verified as **"${newName}"** via command.`,
         );
 
-        return await interaction.reply({
+        return await interaction.editReply({
             content: `Your nickname has been set to "${newName}" and you have been given the role "${role.name}".`,
-            flags: [MessageFlags.Ephemeral],
         });
     },
 };

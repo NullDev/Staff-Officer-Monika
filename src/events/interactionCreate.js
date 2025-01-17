@@ -62,7 +62,6 @@ const handleCommandInteraction = async function(interaction){
 const handleModalSubmit = async function(interaction){
     if (interaction.customId === "submit_into"){
         await handleVerification(interaction);
-        await interaction.deferUpdate();
     }
 };
 
