@@ -1,9 +1,5 @@
 import path from "node:path";
-import {
-    SlashCommandBuilder,
-    MessageFlags,
-    InteractionContextType,
-} from "discord.js";
+import { SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { QuickDB } from "quick.db";
 
 // ========================= //

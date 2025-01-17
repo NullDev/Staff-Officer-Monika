@@ -35,13 +35,12 @@ export default {
      * @param {import("discord.js").CommandInteraction} interaction
      */
     async execute(interaction){
-        await interaction.deferReply();
+        interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
         const channel = interaction.options.get("channel");
         if (!channel){
-            return await interaction.followUp({
+            return await interaction.editReply({
                 content: "A channel is required.",
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
@@ -49,17 +48,15 @@ export default {
 
         if (!val) val = (await interaction.guild?.channels.fetch().catch(() => null))?.find(ch => ch?.name === channel.value && ch?.type === ChannelType.GuildText)?.id;
         if (!val){
-            return await interaction.followUp({
+            return await interaction.editReply({
                 content: "I can't find the specified channel.",
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
         const ch = /** @type {import("discord.js").TextChannel} */ (await interaction.guild?.channels.fetch(val).catch(() => null));
         if (!ch){
-            return await interaction.followUp({
+            return await interaction.editReply({
                 content: "I can't find the specified channel.",
-                flags: [MessageFlags.Ephemeral],
             });
         }
 
@@ -122,9 +119,8 @@ export default {
 
         await db.set(`guild-${interaction.guildId}.verify_message`, message.id);
 
-        return await interaction.followUp({
+        return await interaction.editReply({
             content: "Message has been sent to <#" + val + ">",
-            flags: [MessageFlags.Ephemeral],
         });
     },
 };

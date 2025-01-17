@@ -1,8 +1,9 @@
 import path from "node:path";
-import { SlashCommandBuilder, InteractionContextType } from "discord.js";
+import { SlashCommandBuilder, InteractionContextType, EmbedBuilder, MessageFlags } from "discord.js";
 import { QuickDB } from "quick.db";
 import gLogger from "../../service/gLogger.js";
 import { config } from "../../../config/config.js";
+import defaults from "../../util/defaults.js";
 
 // ========================= //
 // = Copyright (c) NullDev = //
@@ -52,7 +53,7 @@ export default {
      * @param {import("discord.js").CommandInteraction} interaction
      */
     async execute(interaction){
-        interaction.deferReply();
+        interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
         const clan = String(interaction.options.get("clan")?.value);
         const name = String(interaction.options.get("name")?.value);
@@ -64,19 +65,29 @@ export default {
             });
         }
 
+        const replyEmbed = new EmbedBuilder()
+            .setTitle("🔷┃Verification")
+            .setTimestamp();
+
         const memberRole = await interaction.guild?.roles.fetch()
             .then(roles => roles.find(r => r.name === config.settings.member_role)).catch(() => null);
         const guestRole = await interaction.guild?.roles.fetch()
             .then(roles => roles.find(r => r.name === config.settings.guest_role)).catch(() => null);
 
         if (!memberRole){
+            replyEmbed.setDescription("Member role not found. Please contact the server owner.")
+                .setColor("Red");
+
             return await interaction.editReply({
-                content: "Member role not found. Please contact the server owner.",
+                embeds: [replyEmbed],
             });
         }
         if (!guestRole){
+            replyEmbed.setDescription("Guest role not found. Please contact the server owner.")
+                .setColor("Red");
+
             return await interaction.editReply({
-                content: "Guest role not found. Please contact the server owner.",
+                embeds: [replyEmbed],
             });
         }
 
@@ -93,8 +104,11 @@ export default {
                 `User ${interaction.user} has been verified as **"${name}"** without clan via command.`,
             );
 
+            replyEmbed.setDescription(`Your nickname has been set to "${name}".`)
+                .setColor(defaults.embed_color);
+
             return await interaction.editReply({
-                content: `Your nickname has been set to "${name}".`,
+                embeds: [replyEmbed],
             });
         }
 
@@ -113,8 +127,11 @@ export default {
                 "Red",
             );
 
+            replyEmbed.setDescription(eMsg)
+                .setColor("Red");
+
             return await interaction.editReply({
-                content: eMsg,
+                embeds: [replyEmbed],
             });
         }
 
@@ -132,8 +149,12 @@ export default {
             `User ${interaction.user} has been verified as **"${newName}"** via command.`,
         );
 
+        replyEmbed.setDescription(
+            `Your nickname has been set to "${newName}" and you have been given the role "${role.name}".`,
+        ).setColor(defaults.embed_color);
+
         return await interaction.editReply({
-            content: `Your nickname has been set to "${newName}" and you have been given the role "${role.name}".`,
+            embeds: [replyEmbed],
         });
     },
 };
