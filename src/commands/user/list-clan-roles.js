@@ -1,6 +1,7 @@
 import path from "node:path";
-import { SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
+import { SlashCommandBuilder, MessageFlags, InteractionContextType, EmbedBuilder } from "discord.js";
 import { QuickDB } from "quick.db";
+import defaults from "../../util/defaults.js";
 
 // ========================= //
 // = Copyright (c) NullDev = //
@@ -24,8 +25,14 @@ export default {
     async execute(interaction){
         const roles = await db.get(`guild-${interaction.guildId}.clan_roles`);
         if (!roles || roles.length === 0){
+            const embed = new EmbedBuilder()
+                .setColor("Red")
+                .setTitle("🔷┃Clan List")
+                .setDescription("No clan roles have been found. Tell your admin to use `/add-clan-role` to add some.")
+                .setTimestamp();
+
             return await interaction.reply({
-                content: "No clan roles have been found. Use `/add-clan-role` to add some.",
+                embeds: [embed],
                 flags: [MessageFlags.Ephemeral],
             });
         }
@@ -41,8 +48,14 @@ export default {
 
         const replyString = (await Promise.all(promises)).join("\n");
 
+        const embed = new EmbedBuilder()
+            .setColor(defaults.embed_color)
+            .setTitle("🔷┃Clan List")
+            .setDescription(replyString)
+            .setTimestamp();
+
         return await interaction.reply({
-            content: replyString,
+            embeds: [embed],
             flags: [MessageFlags.Ephemeral],
         });
     },
