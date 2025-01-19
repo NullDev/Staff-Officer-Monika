@@ -115,7 +115,13 @@ const handleVerification = async function(interaction){
     if (!interaction.deferred && !interaction.replied) await interaction.deferUpdate();
 
     const username = interaction.fields.getTextInputValue("username");
-    const clan = interaction.fields.getTextInputValue("clan");
+    let clan = interaction.fields.getTextInputValue("clan");
+
+    // @TODO: HARDCODED. CHANGE THIS
+    // A lot of people get it wrong.
+    if (clan.toLowerCase() === "mooo") clan = "Moo0";
+    // -----------------------------
+
     const gMember = /** @type {import("discord.js").GuildMember} */ (interaction.member);
     const memberRole = await interaction.guild?.roles.fetch()
         .then(roles => roles.find(r => r.name === config.settings.member_role)).catch(() => null);
