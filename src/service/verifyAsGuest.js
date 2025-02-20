@@ -62,10 +62,12 @@ const verifyAsGuest = async function(interaction){
     }
 
     await removeAllClanRolesFromMember(interaction);
+
     const memberRole = await interaction.guild?.roles.fetch()
         .then(roles => roles.find(r => r.name === config.settings.member_role)).catch(() => null);
-    if (memberRole) await /** @type {import("discord.js").GuildMemberRoleManager} */ (interaction.member?.roles)?.remove(memberRole);
 
+    if (memberRole) await /** @type {import("discord.js").GuildMemberRoleManager} */ (interaction.member?.roles)?.remove(memberRole);
+    await /** @type {import("discord.js").GuildMember} */ (interaction.member)?.setNickname(null).catch(() => null);
     await /** @type {import("discord.js").GuildMemberRoleManager} */ (interaction.member?.roles)?.add(serverRole);
 
     const embed = new EmbedBuilder()
