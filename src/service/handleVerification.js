@@ -119,7 +119,7 @@ const handleVerification = async function(interaction){
 
     // @TODO: HARDCODED. CHANGE THIS
     // A lot of people get it wrong.
-    if (clan.toLowerCase() === "mooo") clan = "Moo0";
+    if (clan.toLowerCase() === "mooo" || clan.toLowerCase() === "mood" || clan.toLowerCase() === "moood") clan = "Moo0";
     // -----------------------------
 
     const gMember = /** @type {import("discord.js").GuildMember} */ (interaction.member);
