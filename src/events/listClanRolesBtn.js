@@ -42,7 +42,7 @@ const finalReminder = async function(interaction){
  * @return {Promise<import("discord.js").Message>}
  */
 const listClanRoles = async function(interaction){
-    interaction.deferReply();
+    await interaction.deferReply();
 
     const preamble = "Hello Commander! Seems like you requested a list of all clan roles.";
 

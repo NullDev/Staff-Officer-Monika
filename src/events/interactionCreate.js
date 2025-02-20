@@ -4,6 +4,7 @@ import { QuickDB } from "quick.db";
 import sendVerifyModal from "../service/sendVerifyModal.js";
 import handleVerification from "../service/handleVerification.js";
 import listClanRoles from "./listClanRolesBtn.js";
+import verifyAsGuest from "../service/verifyAsGuest.js";
 import Log from "../util/log.js";
 
 // ========================= //
@@ -77,6 +78,10 @@ const handleButton = async function(interaction){
 
     if (interaction.customId === "list_clans"){
         await listClanRoles(interaction);
+    }
+
+    if (interaction.customId === "join_as_guest"){
+        await verifyAsGuest(interaction);
     }
 };
 

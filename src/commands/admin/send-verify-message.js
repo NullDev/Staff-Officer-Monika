@@ -103,6 +103,17 @@ export default {
                     components: [
                         {
                             type: 2,
+                            style: 1,
+                            label: "Join as guest",
+                            custom_id: "join_as_guest",
+                        },
+                    ],
+                },
+                {
+                    type: 1,
+                    components: [
+                        {
+                            type: 2,
                             style: 3,
                             label: "Verify",
                             custom_id: "verify",
