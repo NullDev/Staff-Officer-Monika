@@ -2,6 +2,7 @@ import path from "node:path";
 import { EmbedBuilder } from "discord.js";
 import { QuickDB } from "quick.db";
 import defaults from "../util/defaults.js";
+import gLogger from "./gLogger.js";
 import { config } from "../../config/config.js";
 
 // ========================= //
@@ -69,6 +70,12 @@ const verifyAsGuest = async function(interaction){
     if (memberRole) await /** @type {import("discord.js").GuildMemberRoleManager} */ (interaction.member?.roles)?.remove(memberRole);
     await /** @type {import("discord.js").GuildMember} */ (interaction.member)?.setNickname(null).catch(() => null);
     await /** @type {import("discord.js").GuildMemberRoleManager} */ (interaction.member?.roles)?.add(serverRole);
+
+    await gLogger(
+        interaction,
+        "🔷┃Verification Log - Success",
+        `User ${interaction.user} has been verified as Guest via button.`,
+    );
 
     const embed = new EmbedBuilder()
         .setTitle("Verified as guest")
